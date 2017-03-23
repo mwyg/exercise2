@@ -23,15 +23,9 @@ public class CountingFacadeWithLock implements CountingFacade {
 
 	public void countAndInvoke() {
 		
-		try {
-			if (lock.tryLock(1, TimeUnit.SECONDS)) {
-				invocationCounter++;
-			}
-		} catch (InterruptedException e) {
-			e.printStackTrace();
-		} finally {
-			lock.unlock();
-		}
+		lock.lock();
+		invocationCounter++;
+		lock.unlock();
 		businessService.executeAction();
 	}
 
